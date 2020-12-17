@@ -2,4 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 def index (request):
-    return HttpResponse("hello")
+    return render(request ,'Marketplace/login.html' )
+
+def login (request):
+    return    render(request ,'Marketplace/login.html')
+
+def register (request):
+    return render(request ,'Marketplace/register.html')
