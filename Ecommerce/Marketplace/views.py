@@ -11,6 +11,6 @@ def index (request):
 def login (request):
     render(request ,'Marketplace/login.html')
 
-def registe (request):
+def register (request):
     render(request ,'Marketplace/register.html')
 
