@@ -25,3 +25,30 @@ class Order(models.Model):
     checkout=models.ForeignKey(Checkout,on_delete=models.SET_NULL,blank=True,null=True)
     def __str__ (self):
         return self.checkout.id
+
+class Checkout(models.Model):
+    Payment_Method=(
+        ('Cash', 'Cash'),
+        ('Visa', 'Visa'),
+    )
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Out for delivery', 'Out for delivery'),
+        ('Delivered', 'Delivered'),
+
+    )
+    Currency=(
+        ('EGP', 'EGP'),
+        ('$', '$'),
+        ('€', '€'),
+        ('£', '£'),
+
+    )
+    currency=models.CharField(max_length=64,null=True,choices=STATUS)
+    payment_method=models.CharField(max_length=64,null=True,choices=Payment_Method)
+    currency=models.CharField(max_length=5,null=True,choices= Currency)
+    customer=models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
+    order=models.ForeignKey(Order,null=True,on_delete=models.SET_NULL)
+
+
+
