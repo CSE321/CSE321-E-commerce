@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from .models import *
 # Create your views here.
 def index (request):
-<<<<<<< HEAD
-    return render(request ,'Marketplace/login.html' )
+    return render(request ,'Marketplace/index.html' )
 
 def login (request):
     return    render(request ,'Marketplace/login.html')
