@@ -5,6 +5,7 @@ from .models import *
 def index (request):
     return render(request ,'Marketplace/index.html' )
 
+
 def login (request):
     return    render(request ,'Marketplace/login.html')
 
