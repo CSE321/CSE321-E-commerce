@@ -1,13 +1,27 @@
-<html lang ="eng">
-    <head>
+{% extends "Marketplace/layout.html" %}
 
-    </head>
-    <body>
-        <h1>home page</h1>
-        {% for product in products %}
-        <p>{{product.id}}::{{product.name}}::{{product.price}}<P>
-        {% endfor %}
-    </body>
+{% block title %} Catalog {% endblock %}
+
+{% block body %}
+
+    <h1>Catalog</h1>
+    <br>
+    {% for product in products %}
+    <div class="card text-center" style="width:50%; margin:auto">
+        <div class="card-body">
+            <!-- <img src="" class="card-img-top" alt="product pic"> -->
+            <a href="##product page##" >{{product.id}}.{{product.name.capitalize}}</a>
+            <br>
+            <h5 class="card-title">Price is {{product.price}}L.E.</h5>
+            <p> {{product.description}} </p>
+            <a href="##Add to cart##" class="btn btn-primary">Add to cart</a>
+        </div>
+        <div class="card-footer text-muted"> Sold by: {{product.seller}} </div>
+    </div>
+    <br>
+
+{% endfor %}
 
 
-</html>
+
+{% endblock %}
