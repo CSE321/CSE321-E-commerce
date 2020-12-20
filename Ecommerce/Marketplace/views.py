@@ -5,10 +5,6 @@ from django.contrib.auth import authenticate, login
 
 from .models import *
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4755182152a233527cbbc3c9be9aa079e3201676
 # Create your views here.
 def index(request):
     return render(request, 'Marketplace/index.html', {
@@ -16,7 +12,6 @@ def index(request):
     })
 
 
-<<<<<<< HEAD
 def login (request):
 
     if request.method == "Post":
@@ -36,11 +31,15 @@ def login (request):
 
 
 
-=======
-def login(request):
-    return render(request, 'Marketplace/login.html')
 
->>>>>>> 4755182152a233527cbbc3c9be9aa079e3201676
 
 def register(request):
+    form = CreateUserForm()
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+
     return render(request, 'Marketplace/register.html')
