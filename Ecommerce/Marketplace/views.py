@@ -14,6 +14,7 @@ def index(request):
 
 
 
+
 def login (request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -33,4 +34,12 @@ def login (request):
 
 
 def register(request):
+    form = CreateUserForm()
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+
     return render(request, 'Marketplace/register.html')
