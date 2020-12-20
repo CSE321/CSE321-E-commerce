@@ -53,7 +53,7 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
     seller = models.ForeignKey(Seller, null=True, on_delete= models.SET_NULL)
     def _str_(self):
-        return self.name
+        return self.name 
 
 
 class Order(models.Model):
