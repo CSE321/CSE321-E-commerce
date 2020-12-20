@@ -1,7 +1,9 @@
 {% extends "Marketplace/layout.html" %}
 
 {% block body %}
-
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
     <h2>Login</h2>
 
     <form action="{% url 'login' %}" method="post" style="width:50%">
