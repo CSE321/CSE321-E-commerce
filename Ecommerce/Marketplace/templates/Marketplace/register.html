@@ -1,32 +1,27 @@
 {% extends "Marketplace/layout.html" %}
 
-{% block title %} Register {% endblock %}
-
 {% block body %}
 
     <h2>Register</h2>
 
     <form action="{% url 'register' %}" method="post" style="width:50%">
         {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+        {%for form in form %}
+        
+        <div>
+        {{form.label}}
+        {{form}}
         </div>
+        {% endfor%}
         <div class="form-group">
             <input class="form-control" type="email" name="email" placeholder="Email Address">
         </div>
         <div class="form-group">
-            <input class="form-control" type="number" name="telephone" placeholder="Telephone">
+            <input class="form-control" type="number" name="credit_card_number" placeholder="credit_card_number">
         </div>
         <div class="form-group">
             <input class="form-control" type="text" name="address" placeholder="Address">
         </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <br>
         <div class="form-check-inline">
             <input class="form-check-input" type="radio" name="usertype" id="customercheck" value="option1" checked>
             <label class="form-check-label" for="customercheck">
@@ -39,10 +34,9 @@
                 Register as a Seller
             </label>
         </div>
-        <br><br>
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
-    <br>
+
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>
 
 {% endblock %}
