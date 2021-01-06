@@ -53,4 +53,12 @@ def register(request):
 
 def product (request, id):
     product = Product.objects.get(id=id)
-    return render(request ,'Marketplace/product.html',{ 'product' :product})
+    category =product.category
+    reviews = Review.objects.filter(product =id)
+    similar_products = Product.objects.filter(category = category).exclude(id=id)
+    return render(request ,'Marketplace/product.html',{ 
+        'product' :product ,
+        'reviews' : reviews ,
+        "similar_products" :similar_products 
+    })
+    
