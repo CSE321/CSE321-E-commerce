@@ -62,3 +62,12 @@ def product (request, id):
         "similar_products" :similar_products 
     })
     
+def dashboard (request):
+    try :
+        seller_id = request.user.seller.id
+        products = Product.objects.filter(seller=seller_id)
+        return render(request, 'Marketplace/register.html', {
+            'products': products,
+            })
+    except:
+        return HttpResponseRedirect(reverse("login"))
