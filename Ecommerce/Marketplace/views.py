@@ -4,14 +4,25 @@ from django.urls import reverse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import  UserCreationForm
+from django.contrib.auth import logout as auth_logout
 
 from .models import *
 
 
 def index(request):
-    return render(request, 'Marketplace/index.html', {
-        "products": Product.objects.all()     # product has fields: name , id ,price ,seller ,image
-    })
+
+    if "orders" not in request.session:
+        request.session["orders"] = []
+
+    if request.method == "POST":
+        products = Product.objects.filter(name=request.POST["search"])
+        return render(request, 'Marketplace/index.html', {
+        "products": products ,"message":"Search results"})
+    else :
+        print(request.user)
+        return render(request, 'Marketplace/index.html', {
+            "products": Product.objects.all() ,"message":"Shop all products"    # product has fields: name , id ,price ,seller ,image
+        })
 
 
 
@@ -71,3 +82,13 @@ def dashboard (request):
             })
     except:
         return HttpResponseRedirect(reverse("login"))
+
+
+
+def addtocart (request ,id ):
+    request.session["orders"] += [{"product_id " : id ,"quntity" :1} ]
+    return HttpResponseRedirect(reverse("index"))
+
+def logout (request):
+    auth_logout(request)
+    return HttpResponseRedirect(reverse("index"))
