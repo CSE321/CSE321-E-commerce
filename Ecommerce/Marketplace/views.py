@@ -83,7 +83,15 @@ def dashboard (request):
     except:
         return HttpResponseRedirect(reverse("login"))
 
-
+def cart (request):
+    user_cart=[]
+    for orders in  request.session["orders"]:
+        product_id=orders["product_id"]
+        quntity =orders["quntity"]
+        user_cart.append([Product.objects.get(id=product_id) ,quntity])
+    return render(request ,'Marketplace/cart.html',{
+        'cart' :user_cart
+    })
 
 def addtocart (request ,id ):
     request.session["orders"] += [{"product_id " : id ,"quntity" :1} ]

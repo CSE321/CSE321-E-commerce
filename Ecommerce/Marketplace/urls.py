@@ -9,7 +9,9 @@ urlpatterns =[
     path('product/<int:id>',views.product ,name="product"),
     path('dashboard',views.dashboard,name="dashboard"),
     path('addtocart/<int:id>', views.addtocart, name="addtocart"),
-    path('logout',views.logout,name="logout")
+    path('logout',views.logout,name="logout"),
+    path('cart',views.cart,name="cart")
+
 
 ]
 
