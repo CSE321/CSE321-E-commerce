@@ -1,27 +1,33 @@
 {% extends "Marketplace/layout.html" %}
 
 {% block body %}
+    <style>
+        td.thick {
+          font-weight: bold;
+        }
+    </style>
 
     <h2>Register</h2>
 
-    <form action="{% url 'register' %}" method="post" style="width:50%">
+    <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
-        {%for form in form %}
-        
-        <div>
-        {{form.label}}
-        {{form}}
-        </div>
-        {% endfor%}
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="number" name="credit_card_number" placeholder="credit_card_number">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="address" placeholder="Address">
-        </div>
+        <table style="padding:15px">
+                <tr>
+                    <td class="thick"><label>Email</label></td>
+                    <td class="thick"><input type="email" name="email"></td>
+                </tr>
+                {{ form.as_table }}
+                <br>
+                <tr>
+                    <td class="thick"><label>Credit card</label></td>
+                    <td class="thick"><input type="number" name="credit_card_number"></td>
+                </tr>
+                <tr>
+                    <td class="thick"><label>Address</label></td>
+                    <td class="thick"><input type="text" name="address"></td>
+                </tr>
+        </table>
+        <br>
         <div class="form-check-inline">
             <input class="form-check-input" type="radio" name="usertype" id="customercheck" value="option1" checked>
             <label class="form-check-label" for="customercheck">
@@ -34,6 +40,8 @@
                 Register as a Seller
             </label>
         </div>
+        <br>
+        <br>
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
 

@@ -9,10 +9,13 @@
     {% for product in products %}
     <div class="card text-center" style="width:50%; margin:auto">
         <div class="card-body">
-            <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:600px" alt="product pic"> 
+            <a href="{% url 'product' product.id %}" >
+                    <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:300px" alt="product pic">
+            <a/>
+            <br>
             <a href="{% url 'product' product.id %}" >{{product.id}}.{{product.name.capitalize}}</a>
             <br>
-            <h5 class="card-title">Price is {{product.price}}L.E.</h5>
+            <h5 class="card-title">Price is {{product.price}} L.E.</h5>
             <p> {{product.description}} </p>
             <a href="##Add to cart##" class="btn btn-primary">Add to cart</a>
         </div>
@@ -20,8 +23,6 @@
     </div>
     <br>
 
-{% endfor %}
-
-
+    {% endfor %}
 
 {% endblock %}

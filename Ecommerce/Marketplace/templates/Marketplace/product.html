@@ -1,0 +1,86 @@
+{% extends "Marketplace/layout.html" %}
+
+{% block title %} {{product.name.capitalize}} {% endblock %}
+
+{% block body %}
+
+    <h1>{{product.name.capitalize}}</h1>
+    <br>
+    <div class="card text-center">
+        <div class="card-body">
+            <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:300px" alt="product pic">
+            <br>
+            <a href="{% url 'product' product.id %}" >{{product.id}}.{{product.name.capitalize}}</a>
+            <br>
+            <h2 class="card-title">Price is {{product.price}}L.E.</h2>
+            <p> {{product.description}} </p>
+            <a href="##Add to cart##" class="btn btn-primary">Add to cart</a>
+        </div>
+        <div class="card-footer text-muted">
+            <p>Sold by:</p>
+            <a href="###Seller###">{{product.seller}}</a>
+        </div>
+    </div>
+    <br>
+
+
+    <h1>Reviews:</h1>
+    {% if reviews %}
+        {% for review in reviews %}
+            <br>
+            <div class="card border-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{review.customer.username}}</h5>
+                    <br>
+                    <p class="card-text">Gave {{product.name}} a rating of {{review.review}} out of five stars.</p>
+                </div>
+            </div>
+        {% endfor %}
+        <br>
+        <form Method="post">
+            {% csrf_token %}
+            <h3>What do you think?</h3>
+            <div class="form-group">
+                <input class="form-control" type="text" name="review" placeholder="Enter your review here:">
+            </div>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+        <br><br><br>
+    {% else %}
+        <form Method="post">
+            {% csrf_token %}
+            <h3>No reviews, add yours:</h3>
+            <div class="form-group">
+                <input class="form-control" type="text" name="review" placeholder="Enter your review here:">
+            </div>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+        <br><br><br>
+    {% endif %}
+
+    <h1>Similar products:</h1>
+    {% for product in similar_products %}
+        <br>
+        <div class="card text-center">
+            <div class="card-body">
+                <a href="{% url 'product' product.id %}" >
+                    <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:300px" alt="product pic">
+                <a/>
+                <br>
+                <a href="{% url 'product' product.id %}" >{{product.id}}.{{product.name.capitalize}}</a>
+                <br>
+                <h5 class="card-title">Price is {{product.price}} L.E.</h5>
+                <p> {{product.description}} </p>
+                <a href="##Add to cart##" class="btn btn-primary">Add to cart</a>
+            </div>
+            <div class="card-footer text-muted">
+                <p>Sold by:</p>
+                <a href="###Seller###">{{product.seller}}</a>
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}
