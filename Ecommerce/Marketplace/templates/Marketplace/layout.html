@@ -8,13 +8,9 @@
         <link href="{% static 'marketplace/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <h1>Marketplace</h1>
-       
-        <ul class="nav">
+        <a href="{% url 'index' %}" style="font-size: 70px; text-decoration: none;color: black;"> MarketPlace<a/>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}">Catalog</a>
-            </li>
+        <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'login' %}">Log In</a>
             </li>
