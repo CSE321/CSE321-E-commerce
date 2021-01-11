@@ -12,7 +12,6 @@ from .models import *
 
 
 def index(request):
-    print(request.session["orders"])
     if "orders" not in request.session:
         request.session["orders"] = []
 
@@ -135,6 +134,7 @@ def cart (request):
             Order(product=product_id ,quantity=quantity ,checkout=cart.id).save()
     else:
         user_cart=[]
+        
         for orders in  request.session["orders"]:
             product_id=orders["product_id"]
             quntity =orders["quntity"]
