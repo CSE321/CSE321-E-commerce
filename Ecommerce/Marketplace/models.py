@@ -41,10 +41,10 @@ class Checkout(models.Model):
         ('£', '£'),
 
     )
-    customer=models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
-    status=models.CharField(max_length=64,null=True,choices=STATUS)
-    payment_method=models.CharField(max_length=64,null=True,choices=Payment_Method)
-    currency=models.CharField(max_length=5,null=True,choices= Currency)
+    customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
+    status = models.CharField(max_length=64, null=True, choices=STATUS)
+    payment_method = models.CharField(max_length=64, null=True, choices=Payment_Method)
+    currency = models.CharField(max_length=5, null=True, choices=Currency)
 
 
 class Product(models.Model):
@@ -63,9 +63,9 @@ class Product(models.Model):
 
 
 class Order(models.Model):
-    product = models.ForeignKey(Product,on_delete=models.SET_NULL,blank=True,null=True)
-    quantity = models.IntegerField(default=0,blank=True,null=True)
-    checkout = models.ForeignKey(Checkout,on_delete=models.SET_NULL,blank=True,null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+    quantity = models.IntegerField(default=0, blank=True, null=True)
+    checkout = models.ForeignKey(Checkout, on_delete=models.SET_NULL, blank=True, null=True)
 
     def _str_(self):
         return self.checkout.id

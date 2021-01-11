@@ -3,12 +3,13 @@
 {% block title %} Log In {% endblock %}
 
 {% block body %}
+<div class="b"` style="margin:auto; max-width:50%">
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
     <h2>Login</h2>
     <br>
-    <form action="{% url 'login' %}" Method="post" style="width:50%">
+    <form action="{% url 'login' %}" Method="post">
         {% csrf_token %}
         <div class="form-group">
             <input autofocus class="form-control" type="text" name="username" placeholder="Username">
@@ -21,5 +22,5 @@
     </form>
     <br>
     Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
+</div>
 {% endblock %}

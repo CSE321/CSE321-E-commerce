@@ -1,15 +1,12 @@
 {% extends "Marketplace/layout.html" %}
 
-{% block body %}
-    <style>
-        td.thick {
-          font-weight: bold;
-        }
-    </style>
+{% block title %} Register {% endblock %}
 
+{% block body %}
+<div class="b" style="margin:auto; max-width:50%">
     <h2>Register</h2>
 
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'register' %}" method="post" style="margin:auto">
         {% csrf_token %}
         <table style="padding:15px">
                 <tr>
@@ -17,7 +14,6 @@
                     <td class="thick"><input type="email" name="email"></td>
                 </tr>
                 {{ form.as_table }}
-                <br>
                 <tr>
                     <td class="thick"><label>Credit card</label></td>
                     <td class="thick"><input type="number" name="credit_card_number"></td>
@@ -46,5 +42,5 @@
     </form>
 
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-
+</div>
 {% endblock %}

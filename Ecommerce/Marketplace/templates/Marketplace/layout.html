@@ -13,34 +13,30 @@
        
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding: 20px 5px 20px;" >
             <div class="container-fluid">
-              <a class="navbar-brand" href="{% url 'index'  %}">Marketplace</a>
+              <a class="navbar-brand" style="font-size:40px" href="{% url 'index'  %}">Marketplace</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarTogglerDemo02" style =" margin-right: 20px;">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'index'  %}">Home</a>
-                </ul>
-              <form class="d-flex" style =" width :60%" action="{% url 'index' %}" Method="post" >
-                {% csrf_token %}
-                <input class="form-control me-2 " type="search" name="search" placeholder="what are you looking for ?" aria-label="Search">
-                <button class="btn btn-light" type="submit">search</button>
-              </form>
-              <div class="collapse navbar-collapse" id="navbarTogglerDemo02" style="position: relative ;">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="position: absolute ;right :30px ;">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login'  %}">Login </a>
-                  </li>
+                  <form class="d-flex" style =" width :60%" action="{% url 'index' %}" Method="post" >
+                    {% csrf_token %}
+                    <input class="form-control me-2 " type="search" name="search" placeholder="what are you looking for ?" aria-label="Search">
+                    <button class="btn btn-light" type="submit">search</button>
+                  </form>
+                  <div class="collapse navbar-collapse" style="position: relative ;">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="position: absolute ;right :30px ;">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login'  %}"> Login </a>
+                      </li>
 
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register'  %}">Register</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout'  %}">Logout </a>
-                  </li>
-                </ul>
-              </div>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register'  %}"> Register </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout'  %}"> Logout </a>
+                      </li>
+                    </ul>
+                  </div>
               </div>
             </div>
         </nav>

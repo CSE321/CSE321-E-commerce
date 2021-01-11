@@ -1,9 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.forms import  UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout as auth_logout
 
 from .models import *
@@ -17,11 +17,14 @@ def index(request):
     if request.method == "POST":
         products = Product.objects.filter(name=request.POST["search"])
         return render(request, 'Marketplace/index.html', {
-        "products": products ,"message":"Search results"})
-    else :
+            "products": products,
+            "message": "Search results"
+        })
+    else:
         print(request.user)
         return render(request, 'Marketplace/index.html', {
-            "products": Product.objects.all() ,"message":"Shop all products"    # product has fields: name , id ,price ,seller ,image
+            "products": Product.objects.all(),
+            "message": "Shop all products"
         })
 
 
@@ -78,8 +81,9 @@ def product(request, id):
         "similar_products": similar_products
     })
     
-def dashboard (request):
-    try :
+
+def dashboard(request):
+    try:
         seller_id = request.user.seller.id
         products = Product.objects.filter(seller=seller_id)
         return render(request, 'Marketplace/register.html', {
@@ -88,20 +92,23 @@ def dashboard (request):
     except:
         return HttpResponseRedirect(reverse("login"))
 
-def cart (request):
-    user_cart=[]
-    for orders in  request.session["orders"]:
-        product_id=orders["product_id"]
-        quntity =orders["quntity"]
-        user_cart.append([Product.objects.get(id=product_id) ,quntity])
-    return render(request ,'Marketplace/cart.html',{
-        'cart' :user_cart
+
+def cart(request):
+    user_cart = []
+    for orders in request.session["orders"]:
+        product_id = orders["product_id"]
+        quantity = orders["quantity"]
+        user_cart.append([Product.objects.get(id=product_id), quantity])
+    return render(request, 'Marketplace/cart.html', {
+        'cart': user_cart
     })
 
-def addtocart (request ,id ):
-    request.session["orders"] += [{"product_id " : id ,"quntity" :1} ]
+
+def addtocart(request, id):
+    request.session["orders"] += [{"product_id ": id, "quantity": 1}]
     return HttpResponseRedirect(reverse("index"))
 
-def logout (request):
+
+def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse("index"))
