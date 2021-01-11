@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "Marketplace/layout.html" %}
 
-</body>
-</html>
+{% block title %} Cart {% endblock %}
+
+{% block body %}
+        <h4>Hello</h4>
+        {% for order in cart %}
+            {% for product in order %}
+                <p> You have items of {{product.name}} sold by {{product.seller}} in your cart</p>
+            {% endfor %}
+        {% endfor %}
+{% endblock %}

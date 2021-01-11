@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate
@@ -12,17 +12,24 @@ from .models import *
 
 
 def index(request):
+<<<<<<< HEAD
+=======
+    # print(request.session["orders"])
+>>>>>>> 9e69362c00292be365c8a9bc2f00fb614fe00ec0
     if "orders" not in request.session:
         request.session["orders"] = []
 
     if request.method == "POST":
         products = Product.objects.filter(name=request.POST["search"])
         return render(request, 'Marketplace/index.html', {
-        "products": products ,"message":"Search results"})
-    else :
+            "products": products,
+            "message": "Search results"
+        })
+    else:
         print(request.user)
         return render(request, 'Marketplace/index.html', {
-            "products": Product.objects.all() ,"message":"Shop all products"    # product has fields: name , id ,price ,seller ,image
+            "products": Product.objects.all(),
+            "message": "Shop all products"
         })
 
 
@@ -47,10 +54,8 @@ def login (request):
         return HttpResponseRedirect(reverse("index"))
 
 
-
-
 def register(request):
-    if(not request.user.is_authenticated ):
+    if(not request.user.is_authenticated):
         form = UserCreationForm()
         if request.method == 'POST':
             form = UserCreationForm(request.POST)
@@ -66,88 +71,79 @@ def register(request):
                     customer.save()
         context = {'form': form}
         return render(request, 'Marketplace/register.html', context)
-    else :
+    else:
         return HttpResponseRedirect(reverse("index"))
 
 
-
-def product (request, id):
+# TODO save new reviews in the db
+def product(request, id):
+    if request.method == "POST":
+        review = request.POST["review"]
     product = Product.objects.get(id=id)
-    category =product.category
-    reviews = Review.objects.filter(product =id)
-    similar_products = Product.objects.filter(category = category).exclude(id=id)
-    return render(request ,'Marketplace/product.html',{ 
-        'product' :product ,
-        'reviews' : reviews ,
-        "similar_products" :similar_products 
+    category = product.category
+    reviews = Review.objects.filter(product=id)
+    similar_products = Product.objects.filter(category=category).exclude(id=id)
+    return render(request, 'Marketplace/product.html', {
+        'product': product,
+        'reviews': reviews,
+        "similar_products": similar_products
     })
 
-    
 
-
-def category(request ,cat):
+def category(request, cat):
     return render(request, 'Marketplace/index.html', {
-            "products": Product.objects.filter(category = cat) ,"message":f"{cat} category "    
+            "products": Product.objects.filter(category=cat), "message": f"{cat} category "
         })
 
 
-
-def logout (request):
+def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
-
 def dashboard(request):
-    
-    try :
+    try:
         seller_id = request.user.seller.id
-    except :
+    except:
         return HttpResponseRedirect(reverse("login"))
     if request.method == "POST":
-        product = Product(seller = seller_id  , name = requses.POST["name"] , price = request.POST["price"] ,stock= request.POST["stock"] ,image = request.POST["image"] ,category =request.POST["category"])
+        product = Product(seller=seller_id, name=request.POST["name"],
+                          price=request.POST["price"], category=request.POST["category"],
+                          image=request.POST["image"], stock=request.POST["stock"])
         product.save() 
-    else :
-        products = Product.objects.filter(seller = seller_id)
-        return render(request ,'Marketplace/dashboard.html',{ 
-            'products' :products 
+    else:
+        products = Product.objects.filter(seller=seller_id)
+        return render(request, 'Marketplace/dashboard.html', {
+            'products': products
     })
 
 
-
-
-def addtocart (request ,id ):
-    request.session["orders"] += [{"product_id " : id ,"quntity" :request.POST["quantity"]}]
+def addtocart(request, id):
+    request.session["orders"] += {"product_id ": id, "quantity": request.POST["quantity"]}
     return HttpResponseRedirect(reverse("index"))
 
 
-
-def cart (request):
-    if request.method =="POST":
-        if not request.user.is_authenticated :
+def cart(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-        cart = Checkout(customer=request.user.id , Payment_Method=request.POST["Payment_Method"])
+        cart = Checkout(customer=request.user.id, Payment_Method=request.POST["Payment_Method"])
         cart.save() 
-        for orders in  request.session["orders"]:
-            product_id=orders["product_id"]
-            quntity =orders["quntity"]
-            Order(product=product_id ,quantity=quantity ,checkout=cart.id).save()
+        for orders in request.session["orders"]:
+            product_id = orders["product_id"]
+            quantity = orders["quantity"]
+            Order(product=product_id, quantity=quantity, checkout=cart.id).save()
     else:
-        user_cart=[]
-        
-        for orders in  request.session["orders"]:
-            product_id=orders["product_id"]
-            quntity =orders["quntity"]
-            user_cart.append([Product.objects.get(id=product_id) ,quntity])
-        return render(request ,'Marketplace/cart.html',{
-            'cart' :user_cart})
+        user_cart = []
+        for orders in request.session["orders"]:
+            product_id = orders["product_id"]
+            quantity = orders["quantity"]
+            user_cart.append([Product.objects.get(id=product_id), quantity])
+        return render(request, 'Marketplace/cart.html', {
+            'cart': user_cart})
 
 
-def addreview(request ,id):
-    if not request.user.is_authenticated :
+def addreview(request, id):
+    if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    Review(user =request.user.id , review=request.POST["review"] , product=id )
-        
-
-
-    
+    Review(user=request.user.id, review=request.POST["review"], product=id)
