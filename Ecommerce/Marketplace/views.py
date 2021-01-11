@@ -12,13 +12,9 @@ from .models import *
 
 
 def index(request):
-<<<<<<< HEAD
-=======
-    # print(request.session["orders"])
->>>>>>> 9e69362c00292be365c8a9bc2f00fb614fe00ec0
     if "orders" not in request.session:
-        request.session["orders"] = []
-
+        request.session["orders"] = []    
+    print(request.session["orders"])
     if request.method == "POST":
         products = Product.objects.filter(name=request.POST["search"])
         return render(request, 'Marketplace/index.html', {
@@ -119,7 +115,7 @@ def dashboard(request):
 
 
 def addtocart(request, id):
-    request.session["orders"] += {"product_id ": id, "quantity": request.POST["quantity"]}
+    request.session["orders"] += [{"product_id": id, "quantity": request.POST["quantity"]}]
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -135,9 +131,11 @@ def cart(request):
             Order(product=product_id, quantity=quantity, checkout=cart.id).save()
     else:
         user_cart = []
-        for orders in request.session["orders"]:
-            product_id = orders["product_id"]
-            quantity = orders["quantity"]
+        print(request.session["orders"])
+        for order in request.session["orders"]:
+            print(order)
+            product_id = order['product_id']
+            quantity = order['quantity']
             user_cart.append([Product.objects.get(id=product_id), quantity])
         return render(request, 'Marketplace/cart.html', {
             'cart': user_cart})
