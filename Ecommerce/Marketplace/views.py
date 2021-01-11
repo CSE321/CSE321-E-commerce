@@ -10,6 +10,7 @@ from django.contrib.auth.forms import  UserCreationForm
 from .models import *
 
 
+
 def index(request):
     print(request.session["orders"])
     if "orders" not in request.session:
@@ -24,6 +25,7 @@ def index(request):
         return render(request, 'Marketplace/index.html', {
             "products": Product.objects.all() ,"message":"Shop all products"    # product has fields: name , id ,price ,seller ,image
         })
+
 
 
 
@@ -44,6 +46,7 @@ def login (request):
         return render(request, 'Marketplace/login.html')
     else :
         return HttpResponseRedirect(reverse("index"))
+
 
 
 
@@ -68,6 +71,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
 
 
+
 def product (request, id):
     product = Product.objects.get(id=id)
     category =product.category
@@ -85,6 +89,7 @@ def category(request ,cat):
     return render(request, 'Marketplace/index.html', {
             "products": Product.objects.filter(category = cat) ,"message":f"{cat} category "    # product has fields: name , id ,price ,seller ,image
         })
+
 
 def logout (request):
     auth_logout(request)
@@ -104,7 +109,7 @@ def dashboard(request):
 
 
 def addtocart (request ,id ):
-    request.session["orders"] += [{"product_id " : id ,"quntity" :1} ]
+    request.session["orders"] += [{"product_id " : id ,"quntity" :request.POST["quninty"]}]
     return HttpResponseRedirect(reverse("index"))
 
     
