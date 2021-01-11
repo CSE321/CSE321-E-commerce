@@ -3,44 +3,59 @@
 {% block title %} Register {% endblock %}
 
 {% block body %}
-<div class="b" style="margin:auto; max-width:50%">
-    <h2>Register</h2>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <div class="container-fluid" style="height: 100%;" >
+        <div class="row" style="height: 100%;">
+          <div class="col-lg-5" style="text-align :center; padding: 0px;background-color:#f1f1f1" >
+            <div style="text-align :center ;margin :70px 30px"}}>
+                <h1>Register</h1>
 
-    <form action="{% url 'register' %}" method="post" style="margin:auto">
-        {% csrf_token %}
-        <table style="padding:15px">
-                <tr>
-                    <td class="thick"><label>Email</label></td>
-                    <td class="thick"><input type="email" name="email"></td>
-                </tr>
-                {{ form.as_table }}
-                <tr>
-                    <td class="thick"><label>Credit card</label></td>
-                    <td class="thick"><input type="number" name="credit_card_number"></td>
-                </tr>
-                <tr>
-                    <td class="thick"><label>Address</label></td>
-                    <td class="thick"><input type="text" name="address"></td>
-                </tr>
-        </table>
-        <br>
-        <div class="form-check-inline">
-            <input class="form-check-input" type="radio" name="usertype" id="customercheck" value="option1" checked>
-            <label class="form-check-label" for="customercheck">
-                Register as a customer
-            </label>
-        </div>
-        <div class="form-check-inline">
-            <input class="form-check-input" type="radio" name="usertype" id="sellercheck" value="option2">
-            <label class="form-check-label" for="sellercheck">
-                Register as a Seller
-            </label>
-        </div>
-        <br>
-        <br>
-        <input class="btn btn-primary" type="submit" value="Register">
-    </form>
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    <table style="padding:15px">
+                        <tr>
+                            <td class="thick"><label>Email</label></td>
+                            <td class="thick"><input type="email" name="email"></td>
+                        </tr>
+                        {{ form.as_table }}
+                        <tr>
+                            <td class="thick"><label>Credit card</label></td>
+                            <td class="thick"><input type="number" name="credit_card_number"></td>
+                        </tr>
+                        <tr>
+                            <td class="thick"><label>Address</label></td>
+                            <td class="thick"><input type="text" name="address"></td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="usertype" id="customercheck" value="option1" checked>
+                        <label class="form-check-label" for="customercheck">
+                            Register as a customer
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="usertype" id="sellercheck" value="option2">
+                        <label class="form-check-label" for="sellercheck">
+                            Register as a Seller
+                        </label>
+                    </div>
+                    <br>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Register">
 
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-</div>
+                </form>
+
+                 Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+                </div>
+             </div>
+            <div class="col-lg-7" style="padding: 0px;">
+                <img src="/Marketplace/images/signInUp.jpg" class="card-img-top" style="width:100%; height: 100%;" alt="product pic">          </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}

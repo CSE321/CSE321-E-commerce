@@ -98,14 +98,15 @@ def cart(request):
     for orders in request.session["orders"]:
         product_id = orders["product_id"]
         quantity = orders["quantity"]
-        user_cart.append([Product.objects.get(id=product_id), quantity])
-    return render(request, 'Marketplace/cart.html', {
-        'cart': user_cart
-    })
+        user_cart.append([Product.objects.get(id=product_id), quantity])  #[[product , quntity] , [], []] => for order in cart  order[0].name oreder[1]
+        return render(request, 'Marketplace/cart.html', {
+            'cart': user_cart
+        })
 
 
 def addtocart(request, id):
-    request.session["orders"] += [{"product_id ": id, "quantity": 1}]
+    request.session["orders"] += [{"product_id ": id, "quantity": request.POST['quantity']}]
+    print(request.session["orders"])
     return HttpResponseRedirect(reverse("index"))
 
 

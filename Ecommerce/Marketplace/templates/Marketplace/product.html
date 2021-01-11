@@ -4,21 +4,20 @@
 
 {% block body %}
 <div class="b" style="margin:auto; max-width:50%">
+    <br>
     <h1>{{product.name.capitalize}}</h1>
     <br>
     <div class="card text-center">
         <div class="card-body">
             <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:300px" alt="product pic">
-            <br>
-            <a href="{% url 'product' product.id %}" >{{product.id}}.{{product.name.capitalize}}</a>
-            <br>
+            <br><br>
             <h2 class="card-title">Price is {{product.price}}L.E.</h2>
             <p> {{product.description}} </p>
-            <form action="{% url 'cart' %}" Method="post">
+            <form action="{% url 'addtocart' product.id %}" Method="post">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col">
-                            <input  class="form-control" style="max-width:40%;margin-left:65%; margin-right:0px" type="number" name="quantity" placeholder="Enter quantity">
+                            <input  class="form-control" style="max-width:40%;margin-left:65%; margin-right:0px" min="0" type="number" name="quantity" placeholder="Enter quantity">
                     </div>
                     <div class="col">
                         <input class="btn btn-primary" style="margin-right:65%;" type="submit" value="Add to cart">
@@ -34,7 +33,7 @@
     <br><br><br>
 
 
-    <h1>Reviews:</h1>
+    <h1>Ratings:</h1>
     {% if reviews %}
     {% for review in reviews %}
     <br>
@@ -46,23 +45,30 @@
     {% endfor %}
     <form Method="post">
         {% csrf_token %}
-        <h3>What do you think?</h3>
-        <div class="form-group">
-            <input class="form-control" type="text" name="review" placeholder="Enter your review here:">
-        </div>
         <br>
-        <input class="btn btn-primary" type="submit" value="Submit">
+        <h3>What do you think?</h3>
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="number" name="review" min="0" max="5" style="max-width:40%;margin-left:65%; margin-right:0px" placeholder="Your rating:">
+            </div>
+            <div class="col">
+                <input class="btn btn-primary" style="margin-right:65%;" type="submit" value="Submit Rating">
+            </div>
+        </div>
     </form>
-    <br><br><br>
+    <br><br><br><br>
     {% else %}
         <form Method="post">
             {% csrf_token %}
-            <h3>No reviews, add yours:</h3>
-            <div class="form-group">
-                <input class="form-control" type="text" name="review" placeholder="Enter your review here:">
+            <h3>No ratings, add yours:</h3>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" type="number" name="review" min="0" max="5" style="max-width:40%;margin-left:65%; margin-right:0px" placeholder="Your rating:">
+                </div>
+                <div class="col">
+                    <input class="btn btn-primary" style="margin-right:65%;" type="submit" value="Submit Rating">
+                </div>
             </div>
-            <br>
-            <input class="btn btn-primary" type="submit" value="Submit">
         </form>
         <br><br><br>
     {% endif %}
@@ -80,7 +86,6 @@
                 <br>
                 <h5 class="card-title">Price is {{product.price}} L.E.</h5>
                 <p> {{product.description}} </p>
-                <a href="##Add to cart##" class="btn btn-primary">Add to cart</a>
             </div>
             <div class="card-footer text-muted">
                 <p>Sold by: {{product.seller}}</p>
