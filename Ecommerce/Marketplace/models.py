@@ -25,23 +25,7 @@ class Checkout(models.Model):
         ('Cash', 'Cash'),
         ('Visa', 'Visa'),
     )
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Out for delivery', 'Out for delivery'),
-        ('Delivered', 'Delivered'),
-
-    )
-    Currency=(
-        ('EGP', 'EGP'),
-        ('$', '$'),
-        ('€', '€'),
-        ('£', '£'),
-
-    )
-    customer=models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
-    status=models.CharField(max_length=64,null=True,choices=STATUS)
-    payment_method=models.CharField(max_length=64,null=True,choices=Payment_Method)
-    currency=models.CharField(max_length=5,null=True,choices= Currency)
+    customer=models.ForeignKey(Customer,on_delete=models.SET_NULL , null=True)
 
 
 class Product(models.Model):
@@ -52,6 +36,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     category = models.CharField(max_length=200, null=True,choices=CATEGORY )
     price = models.FloatField(null=True)
+    stock = models.IntegerField(null=True)
     image = models.ImageField(null=True, blank=True)
     seller = models.ForeignKey(Seller, null=True, on_delete= models.CASCADE)
     def _str_(self):
@@ -65,7 +50,7 @@ class Order(models.Model):
     def _str_(self):
         return self.checkout.id
 
-class Review (models.Model):
+class Review(models.Model):
     customer = models.ForeignKey(Customer ,on_delete=models.SET_NULL ,null=True)
     review = models.IntegerField()
     product = models.ForeignKey(Product ,on_delete=models.CASCADE )
