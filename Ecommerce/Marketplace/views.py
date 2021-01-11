@@ -12,7 +12,7 @@ from .models import *
 
 
 def index(request):
-    print(request.session["orders"])
+    # print(request.session["orders"])
     if "orders" not in request.session:
         request.session["orders"] = []
 
@@ -52,7 +52,7 @@ def login (request):
 
 
 def register(request):
-    if(not request.user.is_authenticated ):
+    if(not request.user.is_authenticated):
         form = UserCreationForm()
         if request.method == 'POST':
             form = UserCreationForm(request.POST)
@@ -68,10 +68,8 @@ def register(request):
                     customer.save()
         context = {'form': form}
         return render(request, 'Marketplace/register.html', context)
-    else :
+    else:
         return HttpResponseRedirect(reverse("index"))
-
-
 
 
 # TODO save new reviews in the db
@@ -88,71 +86,61 @@ def product(request, id):
         "similar_products": similar_products
     })
 
-    
 
-
-def category(request ,cat):
+def category(request, cat):
     return render(request, 'Marketplace/index.html', {
-            "products": Product.objects.filter(category = cat) ,"message":f"{cat} category "    
+            "products": Product.objects.filter(category=cat), "message": f"{cat} category "
         })
 
 
-
-def logout (request):
+def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
-
 def dashboard(request):
-    
-    try :
+    try:
         seller_id = request.user.seller.id
-    except :
+    except:
         return HttpResponseRedirect(reverse("login"))
     if request.method == "POST":
-        product = Product(seller = seller_id  , name = requses.POST["name"] , price = request.POST["price"] ,stock= request.POST["stock"] ,image = request.POST["image"] ,category =request.POST["category"])
+        product = Product(seller=seller_id, name=request.POST["name"],
+                          price=request.POST["price"], category=request.POST["category"],
+                          image=request.POST["image"], stock=request.POST["stock"])
         product.save() 
-    else :
-        products = Product.objects.filter(seller = seller_id)
-        return render(request ,'Marketplace/dashboard.html',{ 
-            'products' :products 
+    else:
+        products = Product.objects.filter(seller=seller_id)
+        return render(request, 'Marketplace/dashboard.html', {
+            'products': products
     })
 
 
-
-
-def addtocart (request ,id ):
-    request.session["orders"] += [{"product_id " : id ,"quntity" :request.POST["quantity"]}]
+def addtocart(request, id):
+    request.session["orders"] += {"product_id ": id, "quantity": request.POST["quantity"]}
     return HttpResponseRedirect(reverse("index"))
 
 
-
-def cart (request):
-    if request.method =="POST":
-        if not request.user.is_authenticated :
+def cart(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-        cart = Checkout(customer=request.user.id , Payment_Method=request.POST["Payment_Method"])
+        cart = Checkout(customer=request.user.id, Payment_Method=request.POST["Payment_Method"])
         cart.save() 
-        for orders in  request.session["orders"]:
-            product_id=orders["product_id"]
-            quntity =orders["quntity"]
-            Order(product=product_id ,quantity=quantity ,checkout=cart.id).save()
+        for orders in request.session["orders"]:
+            product_id = orders["product_id"]
+            quantity = orders["quantity"]
+            Order(product=product_id, quantity=quantity, checkout=cart.id).save()
     else:
-        user_cart=[]
-        for orders in  request.session["orders"]:
-            product_id=orders["product_id"]
-            quntity =orders["quntity"]
-            user_cart.append([Product.objects.get(id=product_id) ,quntity])
-        return render(request ,'Marketplace/cart.html',{
-            'cart' :user_cart})
+        user_cart = []
+        for orders in request.session["orders"]:
+            product_id = orders["product_id"]
+            quantity = orders["quantity"]
+            user_cart.append([Product.objects.get(id=product_id), quantity])
+        return render(request, 'Marketplace/cart.html', {
+            'cart': user_cart})
 
 
-def addreview(request ,id):
-    if not request.user.is_authenticated :
+def addreview(request, id):
+    if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    Review(user =request.user.id , review=request.POST["review"] , product=id )
-        
-
-
-    
+    Review(user=request.user.id, review=request.POST["review"], product=id)
