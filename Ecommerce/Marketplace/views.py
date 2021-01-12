@@ -157,7 +157,7 @@ def cart(request):
             quantity = order['quantity']
             total += Product.objects.get(id=product_id).price *quantity 
             user_cart.append([Product.objects.get(id=product_id), quantity])
-        print(total)
+        total= total*request.session["currency"]["value"]
         return render(request, 'Marketplace/cart.html', {
             'cart': user_cart ,
             "total" : total})
@@ -192,9 +192,9 @@ def changequantity(request,id):
     
             
 def changecurrency(request ,id):
-    if id ==1 :
-        request.session["currency"] = {"currencyName": "EGP","value":1}
+    if id ==15 :
+        request.session["currency"] = {"currencyName": "EGP","value":15}
     else:
-        request.session["currency"] = {"currencyName": "USD","value":15}
+        request.session["currency"] = {"currencyName": "USD","value":1}
     return HttpResponseRedirect(reverse("index"))
 

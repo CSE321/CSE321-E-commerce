@@ -74,7 +74,7 @@
                 <a href="{% url 'product' product.id %}" > <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:auto; padding-top:50px ; ;max-width: 300px;;height :350px" alt="product pic"></a>
                 <div class="card-body">
                     <a href="{% url 'product' product.id %}">{{product.name.capitalize}}</a>
-                    <h5 class="card-title">Price is {{product.price}} *{{request.session.currency.value }}  {{request.session.currency.currencyName}}</h5>
+                    <h5 class="card-title">Price is {{product.price}}*{{request.session.currency.value}}  {{request.session.currency.currencyName}}</h5>
                 </div>
                 <div class="card-footer text-muted"> Sold by: {{product.seller}} </div>
             </div>
