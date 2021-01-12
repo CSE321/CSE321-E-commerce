@@ -14,7 +14,7 @@ from .models import *
 def index(request):
     if "orders" not in request.session:
         request.session["orders"] = []
-        request.session["currency"] = "EGP"    
+        request.session["currency"] = {"currencyName": "EGP","value":1}
     print(request.session["orders"])
     if request.method == "POST":
         products = Product.objects.filter(name=request.POST["search"].lower())
@@ -191,5 +191,10 @@ def changequantity(request,id):
 
     
             
-def changeCurrency(request ,currency):
-    request.session["currency"] = currency
+def changecurrency(request ,id):
+    if id ==1 :
+        request.session["currency"] = {"currencyName": "EGP","value":1}
+    else:
+        request.session["currency"] = {"currencyName": "USD","value":15}
+    return HttpResponseRedirect(reverse("index"))
+
