@@ -16,7 +16,7 @@ def index(request):
         request.session["orders"] = []    
     print(request.session["orders"])
     if request.method == "POST":
-        products = Product.objects.filter(name=request.POST["search"])
+        products = Product.objects.filter(name=request.POST["search"].lower())
         return render(request, 'Marketplace/index.html', {
             "products": products,
             "message": "Search results"
@@ -150,13 +150,16 @@ def cart(request):
     else:
         user_cart = []
         print(request.session["orders"])
+        total =0 
         for order in request.session["orders"]:
-            print(order)
             product_id = order['product_id']
             quantity = order['quantity']
+            total += Product.objects.get(id=product_id).price *quantity 
             user_cart.append([Product.objects.get(id=product_id), quantity])
+        print(total)
         return render(request, 'Marketplace/cart.html', {
-            'cart': user_cart})
+            'cart': user_cart ,
+            "total" : total})
 
 
 
