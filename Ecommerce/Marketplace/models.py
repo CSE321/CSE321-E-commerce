@@ -2,62 +2,69 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    email = models.CharField(max_length=200, null=True)
-    address = models.CharField(max_length=200, null=True)
-    credit_card_number = models.IntegerField(null=True)
-
-    def __str__(self):
-        return self.user.username 
-
+    user = models.OneToOneField(User, on_delete =models.CASCADE ,null=True )
+    email = models.CharField(max_length=200 ,null=True)
+    address = models.CharField(max_length=200 ,null=True )
+    credit_card_number =models.IntegerField()
+    def __str__ (self):
+        return self.user.username
     def password_validate(self):
-        password = self.user.password
-        return len(password) >= 8
+        pw = self.user.password
+        return len(pw) >= 8
 
 
 class Seller(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    email = models.CharField(max_length=200, null=True)
-    address = models.CharField(max_length=200, null=True)
-    credit_card_number = models.IntegerField()
+    user = models.OneToOneField(User, on_delete =models.CASCADE ,null=True )
+    email = models.CharField(max_length=200 ,null=True)
+    address = models.CharField(max_length=200 ,null=True )
+    credit_card_number =models.IntegerField()   
+    def __str__ (self):
+        return self.user.username
 
-    def __str__(self):
-        return self.user.username 
-
+    def password_validate(self):
+        pw = self.user.password
+        return len(pw) >= 8
 
 class Checkout(models.Model):
-    Payment_Method = (
+    Payment_Method=(
         ('Cash', 'Cash'),
         ('Visa', 'Visa'),
     )
-    customer=models.ForeignKey(Customer,on_delete=models.SET_NULL , null=True)
+
+    customer=models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
+    payment_method=models.CharField(max_length=64,null=True,choices=Payment_Method)
+    def Checkout_Valid(self):
+        if(self.payment_method != "Cash" and self.payment_method != "Visa" ):
+            return False
+        else:
+            return True
 
 
 class Product(models.Model):
     CATEGORY = (
-       ('electronics', 'electronics'),
-       ('cloth', 'cloth'),
-       ('sport', 'sport'))
+       ('electronics' ,'electronics'),
+       ('cloth','cloth'),
+       ('sport','sport'))
     name = models.CharField(max_length=200, null=True)
-    category = models.CharField(max_length=200, null=True, choices=CATEGORY)
+    category = models.CharField(max_length=200, null=True,choices=CATEGORY )
     price = models.FloatField(null=True)
-    stock = models.IntegerField(null=True)
     image = models.ImageField(null=True, blank=True)
-    seller = models.ForeignKey(Seller, null=True, on_delete=models.CASCADE)
-
+    seller = models.ForeignKey(Seller, null=True, on_delete= models.SET_NULL)
     def _str_(self):
-        return self.name 
+        return self.name
+    def Product_Valid(self):
+        return self.price > 0 and self.name != None
 
-
-class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
-    quantity = models.IntegerField(default=0, blank=True, null=True)
-    checkout = models.ForeignKey(Checkout, on_delete=models.SET_NULL, blank=True, null=True)
-
+class Order (models.Model):
+    product=models.ForeignKey(Product,on_delete=models.SET_NULL,blank=True,null=True)
+    quantity=models.IntegerField(default=0,blank=True,null=True)
+    date=models.DateTimeField(auto_now_add=True)
+    checkout=models.ForeignKey(Checkout,on_delete=models.SET_NULL,blank=True,null=True)
     def _str_(self):
         return self.checkout.id
+    def Order_Valid(self):
+        return self.quantity>0 and self.product != None
 
 
 class Review(models.Model):
@@ -65,5 +72,5 @@ class Review(models.Model):
     review = models.IntegerField(null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
-    def _str_(self):
+    def str(self):
         return f"{self.customer.username} review is {self.review} on product {self.product.name}"
