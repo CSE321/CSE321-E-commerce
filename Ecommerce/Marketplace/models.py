@@ -58,7 +58,7 @@ class Order(models.Model):
 
 class Review(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL ,null=True)
-    review = models.IntegerField()
+    review = models.IntegerField(null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def _str_(self):

@@ -39,11 +39,11 @@
     <br>
     <div class="card border-dark mb-3">
         <div class="card-body">
-            <p class="card-text">A user gave {{product.name}} a rating of {{review.review}} out of five stars.</p>
+            <p class="card-text">A {{review.customer}} gave {{product.name}} a rating of {{review.review}} out of five stars.</p>
         </div>
     </div>
     {% endfor %}
-    <form Method="post">
+    <form action="{% url 'addreview' product.id %}" Method="post">
         {% csrf_token %}
         <br>
         <h3>What do you think?</h3>
@@ -58,7 +58,7 @@
     </form>
     <br><br><br><br>
     {% else %}
-        <form Method="post">
+        <form action="{% url 'addreview' product.id %}" Method="post">
             {% csrf_token %}
             <h3>No ratings, add yours:</h3>
             <div class="row">

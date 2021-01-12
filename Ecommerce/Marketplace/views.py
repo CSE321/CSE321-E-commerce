@@ -71,7 +71,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
 
 
-# TODO save new reviews in the db
+
 def product(request, id):
     if request.method == "POST":
         review = request.POST["review"]
@@ -86,15 +86,18 @@ def product(request, id):
     })
 
 
+
 def category(request, cat):
     return render(request, 'Marketplace/index.html', {
             "products": Product.objects.filter(category=cat), "message": f"{cat} category "
         })
 
 
+
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 
 def dashboard(request):
@@ -103,9 +106,9 @@ def dashboard(request):
     except:
         return HttpResponseRedirect(reverse("login"))
     if request.method == "POST":
-        product = Product(seller=seller_id, name=request.POST["name"],
-                          price=request.POST["price"], category=request.POST["category"],
-                          image=request.POST["image"], stock=request.POST["stock"])
+        product = Product(seller=Seller.obejcts.get(id=seller_id), name=request.POST["name"],
+        price=request.POST["price"], category=request.POST["category"],
+        image=request.POST["image"], stock=request.POST["stock"])
         product.save() 
     else:
         products = Product.objects.filter(seller=seller_id)
@@ -114,21 +117,23 @@ def dashboard(request):
     })
 
 
+
 def addtocart(request, id):
     request.session["orders"] += [{"product_id": id, "quantity": request.POST["quantity"]}]
     return HttpResponseRedirect(reverse("index"))
+
 
 
 def cart(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-        cart = Checkout(customer=request.user.id, Payment_Method=request.POST["Payment_Method"])
+        cart = Checkout(customer=Customer.objects.get(id=request.user.id), Payment_Method=request.POST["Payment_Method"])
         cart.save() 
         for orders in request.session["orders"]:
             product_id = orders["product_id"]
             quantity = orders["quantity"]
-            Order(product=product_id, quantity=quantity, checkout=cart.id).save()
+            Order(product=Product.objects.get(id=product_id), quantity=quantity, checkout=cart.id).save()
     else:
         user_cart = []
         print(request.session["orders"])
@@ -144,4 +149,8 @@ def cart(request):
 def addreview(request, id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    Review(user=request.user.id, review=request.POST["review"], product=id)
+    product =Product.objects.get(id=id)
+    user= Customer.objects.get(id=request.user.id)
+    Review(customer=user, review=request.POST["review"], product=product).save()
+    return HttpResponseRedirect(reverse("index"))
+
