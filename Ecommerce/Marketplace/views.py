@@ -13,10 +13,11 @@ from .models import *
 
 def index(request):
     if "orders" not in request.session:
-        request.session["orders"] = []    
+        request.session["orders"] = []
+        request.session["currency"] = {"currencyName": "EGP","value":1}
     print(request.session["orders"])
     if request.method == "POST":
-        products = Product.objects.filter(name=request.POST["search"])
+        products = Product.objects.filter(name=request.POST["search"].lower())
         return render(request, 'Marketplace/index.html', {
             "products": products,
             "message": "Search results"
@@ -106,10 +107,12 @@ def dashboard(request):
     except:
         return HttpResponseRedirect(reverse("login"))
     if request.method == "POST":
-        product = Product(seller=Seller.obejcts.get(id=seller_id), name=request.POST["name"],
+        product = Product(seller=request.user.seller, name=request.POST["name"],
                           price=request.POST["price"], category=request.POST["category"],
                           image=request.POST["image"], stock=request.POST["stock"])
         product.save() 
+        products = Product.objects.filter(seller=seller_id)
+        return render(request, 'Marketplace/dashboard.html', {'products': products})
     else:
         products = Product.objects.filter(seller=seller_id)
         return render(request, 'Marketplace/dashboard.html', {
@@ -119,7 +122,18 @@ def dashboard(request):
 
 
 def addtocart(request, id):
-    request.session["orders"] += [{"product_id": id, "quantity": request.POST["quantity"]}]
+    if request.session["orders"]:
+        flag =0
+        for i in range(len(request.session["orders"])):
+            if request.session["orders"][i]["product_id"] == id :
+                flag =1
+                quantity =request.session["orders"][i]["quantity"] +int(request.POST["quantity"])
+                request.session["orders"].pop(i)
+                request.session["orders"] += [{"product_id": id, "quantity": quantity}]
+        if flag ==0 :
+            request.session["orders"] += [{"product_id": id, "quantity": int(request.POST["quantity"])}]
+    else: 
+        request.session["orders"] += [{"product_id": id, "quantity": int(request.POST["quantity"])}]
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -137,20 +151,56 @@ def cart(request):
     else:
         user_cart = []
         print(request.session["orders"])
+        total =0 
         for order in request.session["orders"]:
-            print(order)
             product_id = order['product_id']
             quantity = order['quantity']
+            total += Product.objects.get(id=product_id).price *quantity 
             user_cart.append([Product.objects.get(id=product_id), quantity])
         return render(request, 'Marketplace/cart.html', {
-            'cart': user_cart})
+            'cart': user_cart ,
+            "total" : total})
+
 
 
 def addreview(request, id):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
     product =Product.objects.get(id=id)
     user= Customer.objects.get(id=request.user.id)
-    Review(customer=user, review=request.POST["review"], product=product).save()
+    if not Review.objects.filter(customer=user.id) :
+        Review(customer=user, review=request.POST["review"], product=product).save()
+    else:
+        r= Review.objects.get(customer=user.id)
+        r.review=request.POST["review"]
+        r.save()
+    return HttpResponseRedirect(reverse("index"))
+
+def changequantity(request,id):
+    for order in request.session["orders"]: 
+        if order["product_id"] ==id:
+            if not int(request.POST["quantity"]) ==0:
+                request.session["orders"].remove(order) 
+                request.session["orders"] += [{"product_id": id, "quantity": int(request.POST["quantity"])}]
+            else:
+                print(request.session["orders"])
+                request.session["orders"].remove(order) 
+                request.session["orders"] =request.session["orders"]+[]
+                print(request.session["orders"])
+
+    return HttpResponseRedirect(reverse("cart"))
+
+    
+            
+def changecurrency(request ,id):
+    if not (id ==request.session["currency"]["value"]):
+        if id ==15 :
+            request.session["currency"] = {"currencyName": "EGP","value":15}
+            for product in Product.objects.all():
+                product.price = product.price *15
+                product.save()
+        else:
+            request.session["currency"] = {"currencyName": "USD","value":1}
+            for product in Product.objects.all():
+                product.price = product.price /15
+                product.save()
     return HttpResponseRedirect(reverse("index"))
 
