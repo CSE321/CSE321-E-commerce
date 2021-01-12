@@ -106,10 +106,12 @@ def dashboard(request):
     except:
         return HttpResponseRedirect(reverse("login"))
     if request.method == "POST":
-        product = Product(seller=Seller.obejcts.get(id=seller_id), name=request.POST["name"],
+        product = Product(seller=request.user.seller, name=request.POST["name"],
                           price=request.POST["price"], category=request.POST["category"],
                           image=request.POST["image"], stock=request.POST["stock"])
         product.save() 
+        products = Product.objects.filter(seller=seller_id)
+        return render(request, 'Marketplace/dashboard.html', {'products': products})
     else:
         products = Product.objects.filter(seller=seller_id)
         return render(request, 'Marketplace/dashboard.html', {
