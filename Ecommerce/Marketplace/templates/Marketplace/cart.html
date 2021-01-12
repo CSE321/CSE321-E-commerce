@@ -15,7 +15,7 @@
                     <a href="{% url 'product' order.0.id %}" >
                     <img src="/Marketplace{{order.0.image.url}}" class="card-img-top" style="width:auto; padding-top:50px ; ;max-width: 300px;;height :350px" alt="product pic">
                 </a>
-                    <h3 class="card-title">Price is {{order.0.price}} *{{request.session.currency.value}}  {{request.session.currency.currencyName}}</h3>
+                    <h3 class="card-title">Price is {{order.0.price}}  {{request.session.currency.currencyName}}</h3>
                     <div class="row">
                         <div class="col">
                           <form action="{% url 'changequantity' order.0.id %}" Method="post">
