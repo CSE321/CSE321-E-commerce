@@ -17,8 +17,9 @@
                     {% csrf_token %}
                     <table style="text-align :center ;margin :auto">
                         <tr>
-                            <td><label>Email</label></td>
-                            <td><input type="email" name="email" required=""></td>
+                            <td class="thick"><label>Email</label></td>
+                            <td class="thick"><input type="email" name="email" required="required"></td>
+
                         </tr>
                             {% for form in form %}
                                 <tr>
@@ -27,12 +28,14 @@
                                 </tr>
                             {% endfor %}
                         <tr>
-                            <td  ><label>Credit card</label></td>
-                            <td  ><input type="number" name="credit_card_number" placeholder="You can add this later"></td>
+
+                            <td class="thick"><label>Credit card</label></td>
+                            <td class="thick"><input type="number" name="credit_card_number" required="required"></td>
                         </tr>
                         <tr>
-                            <td  ><label>Address</label></td>
-                            <td  ><input type="text" name="address"></td>
+                            <td class="thick"><label>Address</label></td>
+                            <td class="thick"><input type="text" name="address" required="required"></td>
+
                         </tr>
                     </table>
                     <br>
@@ -58,7 +61,7 @@
                 </div>
              </div>
             <div class="col-lg-7" style="padding: 0px;">
-                <img src="/Marketplace/images/signInUp.jpg" class="card-img-top" style="width:100%; height: 100%;" alt="product pic">          </div>
+                <img src="/Marketplace/Marketplace/images/signInUp.jpg" class="card-img-top" style="width:100%; height: 100%;" alt="product pic">          </div>
             </div>
         </div>
     </div>

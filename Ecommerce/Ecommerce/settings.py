@@ -122,5 +122,5 @@ STATIC_URL = '/Ecommerce/static/'
 STATICFILES_DIR=[
     os.path.join(BASE_DIR, 'EcommerceS/static/Marketplace')
 ]
-MEDIA_URL = '/images/'
+MEDIA_URL = '/Marketplace/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Ecommerce/static/Marketplace/images')
