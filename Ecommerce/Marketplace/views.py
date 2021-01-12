@@ -107,8 +107,8 @@ def dashboard(request):
         return HttpResponseRedirect(reverse("login"))
     if request.method == "POST":
         product = Product(seller=Seller.obejcts.get(id=seller_id), name=request.POST["name"],
-        price=request.POST["price"], category=request.POST["category"],
-        image=request.POST["image"], stock=request.POST["stock"])
+                          price=request.POST["price"], category=request.POST["category"],
+                          image=request.POST["image"], stock=request.POST["stock"])
         product.save() 
     else:
         products = Product.objects.filter(seller=seller_id)

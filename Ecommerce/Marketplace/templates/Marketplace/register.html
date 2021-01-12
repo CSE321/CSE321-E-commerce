@@ -3,15 +3,16 @@
 {% block title %} Register {% endblock %}
 
 {% block body %}
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
     <div class="container-fluid" style="height: 100%;" >
         <div class="row" style="height: 100%;">
           <div class="col-lg-5" style="text-align :center; padding: 0px;background-color:#f1f1f1" >
             <div style="text-align :center ;margin :70px 30px"}}>
+                {% if message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message.capitalize }}
+                    </div>
+                {% endif %}
                 <h1>Register</h1>
-
                 <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <table style="padding:15px">
@@ -56,6 +57,7 @@
             </div>
         </div>
     </div>
-    
+
 
 {% endblock %}
+
