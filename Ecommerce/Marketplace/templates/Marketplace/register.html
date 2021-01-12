@@ -17,10 +17,9 @@
                     {% csrf_token %}
                     <table style="text-align :center ;margin :auto">
                         <tr>
-
-
                             <td class="thick"><label>Email</label></td>
                             <td class="thick"><input type="email" name="email" required="required"></td>
+
                         </tr>
                             {% for form in form %}
                                 <tr>
@@ -36,7 +35,8 @@
                         <tr>
                             <td class="thick"><label>Address</label></td>
                             <td class="thick"><input type="text" name="address" required="required"></td>
-                  </tr>
+
+                        </tr>
                     </table>
                     <br>
                     <div class="form-check-inline">

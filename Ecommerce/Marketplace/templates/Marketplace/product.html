@@ -11,7 +11,7 @@
         <div class="card-body">
             <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:300px" alt="product pic">
             <br><br>
-            <h2 class="card-title">Price is Price is {{product.price}}  {{request.session.currency.currencyName}}</h2>
+            <h2 class="card-title">Price is {{product.price}}L.E.</h2>
             <p> {{product.description}} </p>
             <form action="{% url 'addtocart' product.id %}" Method="post">
                 {% csrf_token %}
