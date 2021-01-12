@@ -119,7 +119,18 @@ def dashboard(request):
 
 
 def addtocart(request, id):
-    request.session["orders"] += [{"product_id": id, "quantity": request.POST["quantity"]}]
+    if request.session["orders"]:
+        flag =0
+        for i in range(len(request.session["orders"])):
+            if request.session["orders"][i]["product_id"] == id :
+                flag =1
+                quantity =request.session["orders"][i]["quantity"] +int(request.POST["quantity"])
+                request.session["orders"].pop(i)
+                request.session["orders"] += [{"product_id": id, "quantity": quantity}]
+        if flag ==0 :
+            request.session["orders"] += [{"product_id": id, "quantity": int(request.POST["quantity"])}]
+    else: 
+        request.session["orders"] += [{"product_id": id, "quantity": int(request.POST["quantity"])}]
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -146,11 +157,31 @@ def cart(request):
             'cart': user_cart})
 
 
+
 def addreview(request, id):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
     product =Product.objects.get(id=id)
     user= Customer.objects.get(id=request.user.id)
-    Review(customer=user, review=request.POST["review"], product=product).save()
+    if not Review.objects.filter(customer=user.id) :
+        Review(customer=user, review=request.POST["review"], product=product).save()
+    else:
+        r= Review.objects.get(customer=user.id)
+        r.review=request.POST["review"]
+        r.save()
     return HttpResponseRedirect(reverse("index"))
 
+def changequantity(request,id):
+    for order in request.session["orders"]: 
+        if order["product_id"] ==id:
+            if not int(request.POST["quantity"]) ==0:
+                request.session["orders"].remove(order) 
+                request.session["orders"] += [{"product_id": id, "quantity": int(request.POST["quantity"])}]
+            else:
+                print(request.session["orders"])
+                request.session["orders"].remove(order) 
+                request.session["orders"] =request.session["orders"]+[]
+                print(request.session["orders"])
+
+    return HttpResponseRedirect(reverse("cart"))
+
+    
+            
