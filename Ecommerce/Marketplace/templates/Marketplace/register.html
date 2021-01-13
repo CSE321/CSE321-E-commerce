@@ -17,15 +17,13 @@
                     {% csrf_token %}
                     <table style="text-align :center ;margin :auto">
                         <tr>
-
-
                             <td class="thick"><label>Email</label></td>
                             <td class="thick"><input type="email" name="email" required="required"></td>
                         </tr>
                             {% for form in form %}
                                 <tr>
-                                    <td  ><label>{{form.label}}</label></td>
-                                    <td  >{{form}}</td>
+                                    <td><label>{{form.label}}</label></td>
+                                    <td>{{form}}</td>
                                 </tr>
                             {% endfor %}
                         <tr>

@@ -11,13 +11,20 @@
         <div class="card-body">
             <img src="/Marketplace{{product.image.url}}" class="card-img-top" style="width:300px" alt="product pic">
             <br><br>
-            <h2 class="card-title">Price is {{product.price}}  {{request.session.currency.currencyName}}</h2>
+
+            <div class="row">
+                <h2 class="card-title">Price is {{product.price}}  {{request.session.currency.currencyName}}</h2>
+            </div>
+            <div class="row">
+                <h4 class="card-title">Currently {{product.stock}} in stock</h4>
+            </div>
+
             <p> {{product.description}} </p>
             <form action="{% url 'addtocart' product.id %}" Method="post">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col">
-                        <input  class="form-control" style="max-width:40%;margin-left:65%; margin-right:0px" min="0" type="number" name="quantity"  required="required" placeholder="Enter quantity">
+                        <input  class="form-control" style="max-width:40%;margin-left:65%; margin-right:0px" min="1" max="{{product.stock}}" type="number" name="quantity"  required="required" placeholder="Enter quantity">
                     </div>
                     <div class="col">
                         <input class="btn btn-primary" style="margin-right:65%;" type="submit" value="Add to cart">

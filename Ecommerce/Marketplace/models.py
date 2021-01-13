@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete =models.CASCADE ,null=True )
     email = models.CharField(max_length=200 ,null=True)
-    address = models.CharField(max_length=200 ,null=True )
-    credit_card_number =models.IntegerField()
+    address = models.CharField(max_length=200 ,null=True)
+    credit_card_number =models.IntegerField(null=True)
     def __str__ (self):
         return self.user.username
     def password_validate(self):
@@ -18,7 +18,7 @@ class Seller(models.Model):
     user = models.OneToOneField(User, on_delete =models.CASCADE ,null=True )
     email = models.CharField(max_length=200 ,null=True)
     address = models.CharField(max_length=200 ,null=True )
-    credit_card_number =models.IntegerField()   
+    credit_card_number =models.IntegerField(null=True)
     def __str__ (self):
         return self.user.username
 
@@ -49,6 +49,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     category = models.CharField(max_length=200, null=True,choices=CATEGORY )
     price = models.IntegerField(null=True)
+    stock = models.IntegerField(null=True)
     image = models.ImageField(null=True, blank=True)
     seller = models.ForeignKey(Seller, null=True, on_delete= models.SET_NULL)
     def _str_(self):

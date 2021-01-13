@@ -60,12 +60,14 @@ def register(request):
                 print(request.POST)
                 form.save()
                 user_data = User.objects.get(username=form.cleaned_data["username"])
+                auth_login(request,user_data)
                 if(request.POST["usertype"]=="option2"):
-                    seller =Seller(user=user_data ,email=request.POST["email"], address=request.POST["address"] ,credit_card_number=request.POST["credit_card_number"])
+                    seller =Seller(user=user_data ,email=request.POST["email"])
                     seller.save()
                 else:
-                    customer =Customer(user=user_data ,email=request.POST["email"], address=request.POST["address"] ,credit_card_number=request.POST["credit_card_number"])
+                    customer =Customer(user=user_data ,email=request.POST["email"])
                     customer.save()
+                return HttpResponseRedirect(reverse("index"))
         context = {'form': form}
         return render(request, 'Marketplace/register.html', context)
     else:
@@ -142,21 +144,23 @@ def cart(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
-        cart = Checkout(customer=Customer.objects.get(id=request.user.id), Payment_Method=request.POST["Payment_Method"])
-        cart.save() 
+        cart = Checkout(customer=Customer.objects.get(id=request.user.id), payment_method=request.POST["paymentMethod"])
+        cart.save()
         for orders in request.session["orders"]:
             product_id = orders["product_id"]
             quantity = orders["quantity"]
-            Order(product=Product.objects.get(id=product_id), quantity=quantity, checkout=cart.id).save()
+            Order(product=Product.objects.get(id=product_id), quantity=quantity, checkout=cart).save()
+            return HttpResponseRedirect(reverse("index"))
     else:
         user_cart = []
         print(request.session["orders"])
-        total =0 
+        total = 0
         for order in request.session["orders"]:
             product_id = order['product_id']
             quantity = order['quantity']
-            total += Product.objects.get(id=product_id).price *quantity 
+            total += Product.objects.get(id=product_id).price *quantity
             user_cart.append([Product.objects.get(id=product_id), quantity])
+        total= total*request.session["currency"]["value"]
         return render(request, 'Marketplace/cart.html', {
             'cart': user_cart ,
             "total" : total})
