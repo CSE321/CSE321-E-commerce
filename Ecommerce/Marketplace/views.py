@@ -14,7 +14,7 @@ from .models import *
 def index(request):
     if "orders" not in request.session:
         request.session["orders"] = []
-        request.session["currency"] = {"currencyName": "EGP","value":1}
+        request.session["currency"] = {"currencyName": "USD", "value":1 }
     print(request.session["orders"])
     if request.method == "POST":
         products = Product.objects.filter(name=request.POST["search"].lower())
@@ -166,10 +166,10 @@ def cart(request):
 def addreview(request, id):
     product =Product.objects.get(id=id)
     user= Customer.objects.get(id=request.user.id)
-    if not Review.objects.filter(customer=user.id) :
+    if not Review.objects.filter(customer=user).filter(product=id) :
         Review(customer=user, review=request.POST["review"], product=product).save()
     else:
-        r= Review.objects.get(customer=user.id)
+        r= Review.objects.filter(customer=user.id).get(product=id)
         r.review=request.POST["review"]
         r.save()
     return HttpResponseRedirect(reverse("index"))
