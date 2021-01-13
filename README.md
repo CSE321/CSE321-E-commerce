@@ -1,6 +1,6 @@
 # CSE321-E-commerce
   ## - Descreption: E-commerce Website it creates a great connection node between user and seller where user can buy whatever he wants only by click a few clicks on and The               seller can offer his product online which will be available for anyone can afford it.
- ------ 
+  
   ### - Our website provides a platform to user can buy many of products and for seller he can offers his product and sell it in easy way.
  ------
   ### - User can use it from any device supporting internet where it shows on web.
