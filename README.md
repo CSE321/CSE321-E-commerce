@@ -8,7 +8,7 @@
   ### - If the customer want to choose a product, he needs to add the product to his cart where all of of his products he want to buy then procced to check out and choose how he           can pay for that products credit card or cash on delivery etc...
   ------
   
-  ## The program createad with Django Framework: 
-![alt text](https://img.shields.io/pypi/djversions/djangorestframework?style=flat-square "Logo Title Text 1")
+  ## The program createad with Django Framework ![alt text](https://img.shields.io/pypi/djversions/djangorestframework?style=flat-square "Logo Title Text 1") ,HTML ![alt text]( https://img.shields.io/badge/HTML-%20-blue "Logo Title Text 2"), CSS ![alt text]( https://img.shields.io/badge/CSS-3-blue "Logo Title Text 3") and Bootstrap ![alt text]( https://img.shields.io/badge/Bootstrap-5-blue "Logo Title Text 4")
   
+ 
   
