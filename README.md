@@ -8,7 +8,7 @@
   ### - If the customer want to choose a product, he needs to add the product to his cart where all of of his products he want to buy then procced to check out and choose how he           can pay for that products credit card or cash on delivery etc...
   ------
   
-  ## The program createad with ![alt text](https://img.shields.io/pypi/djversions/djangorestframework?style=flat-square "Logo Title Text 1"), ![alt text]( https://img.shields.io/badge/HTML-5-blue "Logo Title Text 2"), ![alt text]( https://img.shields.io/badge/CSS-3-blue "Logo Title Text 3") and ![alt text]( https://img.shields.io/badge/Bootstrap-5-blue "Logo Title Text 4")
+  ## The program createad with ![alt text](https://img.shields.io/pypi/djversions/djangorestframework?style=flat-square "Logo Title Text 1"), ![alt text]( https://img.shields.io/badge/HTML-5-blue "Logo Title Text 2"), ![alt text]( https://img.shields.io/badge/CSS-3-blue "Logo Title Text 3"), and ![alt text]( https://img.shields.io/badge/Bootstrap-5-blue "Logo Title Text 4")
   
- For more information and the user guide you can look throw the project's documentation by [Clicking here](https://github.com/CSE321/CSE321-E-commerce)
+ #### For more information and the user guide you can look throw the project's documentation by [Clicking here](https://github.com/CSE321/CSE321-E-commerce)
   
