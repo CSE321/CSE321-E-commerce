@@ -43,14 +43,14 @@ class Checkout(models.Model):
 
 class Product(models.Model):
     CATEGORY = (
-       ('electronics' ,'electronics'),
+       ('electronics','electronics'),
        ('cloth','cloth'),
        ('sport','sport'))
     name = models.CharField(max_length=200, null=True)
     category = models.CharField(max_length=200, null=True,choices=CATEGORY )
     price = models.IntegerField(null=True)
     stock = models.IntegerField(null=True)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True ,default='empty.jpg')
     seller = models.ForeignKey(Seller, null=True, on_delete= models.SET_NULL)
     def _str_(self):
         return self.name

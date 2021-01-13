@@ -168,15 +168,18 @@ def cart(request):
 
 
 def addreview(request, id):
-    product =Product.objects.get(id=id)
-    user= Customer.objects.get(id=request.user.id)
-    if not Review.objects.filter(customer=user).filter(product=id) :
-        Review(customer=user, review=request.POST["review"], product=product).save()
-    else:
-        r= Review.objects.filter(customer=user.id).get(product=id)
-        r.review=request.POST["review"]
-        r.save()
-    return HttpResponseRedirect(reverse("index"))
+    if request.user.is_authenticated:
+        product =Product.objects.get(id=id)
+        user= Customer.objects.get(id=request.user.id)
+        if not Review.objects.filter(customer=user).filter(product=id) :
+            Review(customer=user, review=request.POST["review"], product=product).save()
+        else:
+            r= Review.objects.filter(customer=user.id).get(product=id)
+            r.review=request.POST["review"]
+            r.save()
+        return HttpResponseRedirect(reverse("index"))
+    else :
+        return HttpResponseRedirect(reverse("login"))
 
 def changequantity(request,id):
     for order in request.session["orders"]: 
