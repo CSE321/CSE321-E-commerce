@@ -195,12 +195,12 @@ def changecurrency(request ,id):
         if id ==15 :
             request.session["currency"] = {"currencyName": "EGP","value":15}
             for product in Product.objects.all():
-                product.price = product.price *15
+                product.price = round(product.price*15)
                 product.save()
         else:
             request.session["currency"] = {"currencyName": "USD","value":1}
             for product in Product.objects.all():
-                product.price = product.price /15
+                product.price = round(product.price/15)
                 product.save()
     return HttpResponseRedirect(reverse("index"))
 

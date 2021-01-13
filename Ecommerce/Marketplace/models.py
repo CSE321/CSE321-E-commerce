@@ -48,7 +48,7 @@ class Product(models.Model):
        ('sport','sport'))
     name = models.CharField(max_length=200, null=True)
     category = models.CharField(max_length=200, null=True,choices=CATEGORY )
-    price = models.FloatField(null=True)
+    price = models.IntegerField(null=True)
     image = models.ImageField(null=True, blank=True)
     seller = models.ForeignKey(Seller, null=True, on_delete= models.SET_NULL)
     def _str_(self):
@@ -59,7 +59,6 @@ class Product(models.Model):
 class Order (models.Model):
     product=models.ForeignKey(Product,on_delete=models.SET_NULL,blank=True,null=True)
     quantity=models.IntegerField(default=0,blank=True,null=True)
-    date=models.DateTimeField(auto_now_add=True)
     checkout=models.ForeignKey(Checkout,on_delete=models.SET_NULL,blank=True,null=True)
     def _str_(self):
         return self.checkout.id
