@@ -13,9 +13,8 @@
  #### For more information and the user guide you can look throw the project's documentation by [Clicking here](https://drive.google.com/file/d/1JQyHLi7vovGORFQCaZIbFZzBPn4n6dW8/view?usp=sharing)
 ------
   ### - To run the website follow these steps:
-1- Install python
-2- Install Django
-3- Clone project [repository]
-  (https://github.com/CSE321/CSE321-E-commerce)
-4- Run the django server using:
-	python manage.py runserver command
+	1- Install python
+	2- Install Django
+	3- Clone project Repository: https://github.com/CSE321/CSE321-E-commerce
+	4- Run the django server using command:
+		python manage.py runserver 
